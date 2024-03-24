@@ -1,9 +1,12 @@
 #include <Arduino.h>
-#include "movements.h"
+#include "Fish.h"
 
 void songStateMachine();
 
 const int MOTOR_RUN_TIME = 3000;
+
+Fish fish1(1);
+Fish fish3(3);
 
 void setup() {
 
@@ -11,8 +14,8 @@ void setup() {
   Serial.println("Billy Bass");
   delay(1000);
 
-  pinsSetup();
-
+  fish1.setupPins();
+  fish3.setupPins();
 
 }
 
@@ -41,32 +44,32 @@ void songStateMachine() {
           Serial.println("HEAD_FRONT_AND_SING");
           break;
         }
-        flapTail();
+        fish1.flapTail();
         break;
       case HEAD_FRONT_AND_SING:
         if (millis() - lastMillis > 5000) {
           lastMillis = millis();
           state++;
           Serial.println("HEAD_BACK_AND_SING");
-          stopAll();
+          fish1.stopAll();
           break;
         }
-        turnHead();
-        sing();
+        fish1.turnHead();
+        fish1.sing();
         break;
       case HEAD_BACK_AND_SING:
         if (millis() - lastMillis > TIME) {
           lastMillis = millis();
           state++;
           Serial.println("FINISH");
-          stopAll();
+          fish1.stopAll();
           break;
         }
-        sing();
+        fish1.sing();
         break;
       case FINISH:
         if (millis() - lastMillis > 1000) {
-          stopAll();
+          fish1.stopAll();
           state = 0;
           lastMillis = millis();
         }
