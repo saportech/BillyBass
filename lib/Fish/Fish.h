@@ -2,14 +2,28 @@
 #define FISH_H
 
 #include <Arduino.h>
+#include "dfplayer.h"
 
 class Fish {
 private:
-    int type; // Type of fish (1-3)
+    int type;
     int tailHeadPin1;
     int tailHeadPin2;
     int mouthPin1;
     int mouthPin2;
+
+    int txPin;
+
+    unsigned long intervalFlap;
+    unsigned long previousMillisFlap;
+    bool isFlapping;
+
+    unsigned long intervalSing;
+    unsigned long previousMillisSing;
+    bool isSinging;
+    
+    int state;
+    unsigned long previousMillisSM;
 
 public:
     Fish(int fishType);
@@ -21,6 +35,9 @@ public:
     void stopMouth();
     void stopAll();
     void setupPins();
+    void songStateMachine();
+    void Test();
+    
 };
 
 #endif
