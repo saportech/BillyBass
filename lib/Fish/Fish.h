@@ -35,9 +35,9 @@ public:
     void stopMouth();
     void stopAll();
     void setupPins();
-    void songStateMachine();
+    void songStateMachine(int songNumber);
     void Test();
-    
+
 };
 
 #endif

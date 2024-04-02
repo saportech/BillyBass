@@ -59,7 +59,7 @@ void Fish::Test() {
     
 }
 
-void Fish::songStateMachine() {
+void Fish::songStateMachine(int songNumber) {
   
   #define TIME 3000
 
@@ -74,7 +74,7 @@ void Fish::songStateMachine() {
       case START:
         Serial.println("START" + String(txPin));
         dfPlayerSetup(txPin);
-        playSound(1);
+        playSound(songNumber);
         previousMillisSM = millis();
         state++;
         break;
