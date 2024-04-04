@@ -58,8 +58,15 @@ void execute_CMD(byte CMD, byte Par1, byte Par2) {
   }
 }
 
+void stopSound() {
+  execute_CMD(0x16, 0, 0);
+  Serial.println("Playback stopped.");
+}
+
 void dfPlayerSetup(int txPin) {
   #define RX 34 //Unused
+  Serial2.flush();
   Serial2.begin(9600, SERIAL_8N1, RX, txPin);
-  setVolume(25);
+  stopSound();
+  setVolume(15);
 }

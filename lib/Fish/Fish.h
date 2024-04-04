@@ -2,7 +2,14 @@
 #define FISH_H
 
 #include <Arduino.h>
+#include <queue>
 #include "dfplayer.h"
+#include "globals.h"
+
+struct Action {
+  unsigned long duration;
+  int action;
+};
 
 class Fish {
 private:
@@ -25,6 +32,8 @@ private:
     int state;
     unsigned long previousMillisSM;
 
+    bool isFirstPerformCall;
+
 public:
     Fish(int fishType);
 
@@ -36,7 +45,10 @@ public:
     void stopAll();
     void setupPins();
     void songStateMachine(int songNumber);
-    void Test();
+    void performAction(unsigned long time, int action);
+    void updateAction();
+    void perform(int songNumber);
+    void turnTail();
 
 };
 

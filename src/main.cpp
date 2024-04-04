@@ -2,9 +2,13 @@
 #include "Fish.h"
 #include "dfplayer.h"
 #include "communication.h"
+#include "globals.h"
 
 void runFishes(int songNumber);
+void buttonPressed();
+
 int currentSong = 1;
+bool buttonPressedBool = false;
 
 Fish fish1(1);
 Fish fish2(2);
@@ -16,36 +20,52 @@ void setup() {
 
   Serial.begin(115200);
   Serial.println("Billy Bass");
-  delay(1000);
+
+  Serial.flush();
 
   fish1.setupPins();
   fish2.setupPins();
   fish3.setupPins();
 
-  comm.init();
+  dfPlayerSetup(21);
+  delay(300);
+  dfPlayerSetup(22);
+  delay(300);
+  dfPlayerSetup(23);
+  delay(300);
+
+
+  //comm.init();
 
 }
 
 void loop() {
 
-  if (comm.checkSignalReceived()) {
-    Serial.println("Signal received");
-    comm.setSignalReceived(false);
-  }
+  fish2.perform(1);
 
 }
 
 void runFishes(int songNumber) {
-static unsigned long currentMillis = millis();
 
-  fish1.songStateMachine(songNumber);
-
-  if (millis() - currentMillis > 5000) {
-    fish2.songStateMachine(songNumber);
-  }
-
-  if (millis() - currentMillis > 10000) {
-    fish3.songStateMachine(songNumber);
+  switch(songNumber) {
+    case 1:
+      fish1.perform(songNumber);
+      fish2.perform(songNumber);
+      fish3.perform(songNumber);
+      break;
+    case 2:
+      fish1.perform(songNumber);
+      fish2.perform(songNumber);
+      fish3.perform(songNumber);
+      break;
+    case 3:
+      fish1.perform(songNumber);
+      fish2.perform(songNumber);
+      fish3.perform(songNumber);
+      break;
+    default:
+      Serial.println("Error in runFishes()");
+      break;
   }
 
 }
