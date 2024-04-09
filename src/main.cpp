@@ -41,17 +41,30 @@ void setup() {
 
 void loop() {
 
-  fish2.perform(1);
+  runFishes(1);
 
 }
 
 void runFishes(int songNumber) {
+static unsigned long previousTime = millis();
+static int currentFish = 1;
 
   switch(songNumber) {
     case 1:
-      fish1.perform(songNumber);
-      fish2.perform(songNumber);
-      fish3.perform(songNumber);
+      if (millis() - previousTime >= 20000) {//END OF SONG
+        previousTime = millis();
+        break;
+      }
+      else {
+        fish1.perform(songNumber);
+        if (millis() - previousTime >= 5000) {//FISH 2 STARTS
+          fish2.perform(songNumber);
+        }
+        if (millis() - previousTime >= 12000) {//FISH 3 STARTS
+          fish3.perform(songNumber);
+        }
+        break;
+      }
       break;
     case 2:
       fish1.perform(songNumber);
