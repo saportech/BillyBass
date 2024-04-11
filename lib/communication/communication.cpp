@@ -1,7 +1,8 @@
 #include "communication.h"
 //24:6F:28:1E:D3:F0 without red spot on antenna
-uint8_t masterMac[] = {0x24, 0x6F, 0x28, 0x1E, 0xD3, 0xF0}; //mac address of esp32 with white spot on antenna
-//uint8_t masterMac[] = {0xA4, 0xCF, 0x12, 0x6A, 0x50, 0xD4}; //mac address of esp32 with red spot on antenna
+//uint8_t masterMac[] = {0x24, 0x6F, 0x28, 0x1E, 0xD3, 0xF0}; //esp32 that michal has and is the final with white spot on antenna
+uint8_t masterMac[] = {0x80, 0x64, 0x6F, 0xC4, 0x92, 0xD0};//of type C esp32
+//uint8_t masterMac[] = {0xA4, 0xCF, 0x12, 0x6A, 0x50, 0xD4}; //esp32 with red spot on antenna
 
 bool Communication::signalReceived = false;
 

@@ -1,8 +1,6 @@
 #include <Arduino.h>
 #include "Fish.h"
 
-std::queue<Action> actionQueue;
-
 Fish::Fish(int fishType) : type(fishType) {
     switch (type) {
         case 1:
@@ -54,7 +52,7 @@ void Fish::performAction(unsigned long duration, int action) {
 }
 
 void Fish::perform(int songNumber) {
-    if (isFirstPerformCall) {
+    if (isFirstPerformCall && isFishPlayingBool) {
         Serial.println("Performing song " + String(songNumber) + " on fish type " + String(type));
         dfPlayerSetup(txPin);
         playSound(songNumber);
@@ -2749,9 +2747,26 @@ void Fish::perform(int songNumber) {
                 break;
         }
         isFirstPerformCall = false;
+        isFirstTimeEmpty = true;
     } else {
         updateAction();
+        if (actionQueue.empty()) {
+          if (isFirstTimeEmpty) {
+              Serial.println("Fish " + String(type) + " finished playing song " + String(songNumber));
+              isFirstPerformCall = true;
+              isFishPlayingBool = false;
+              isFirstTimeEmpty = false;
+          }
+        }
     }
+}
+
+bool Fish::isFishPlaying() {
+    return isFishPlayingBool;
+}
+
+void Fish::setFishPlaying(bool isFishPlaying) {
+    isFishPlayingBool = isFishPlaying;
 }
 
 void Fish::updateAction() {
@@ -2795,7 +2810,7 @@ void Fish::updateAction() {
         }
       }
     }
-  }
+  } 
 }
 
 void Fish::songStateMachine(int songNumber) {

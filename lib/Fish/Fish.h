@@ -13,6 +13,7 @@ struct Action {
 
 class Fish {
 private:
+    std::queue<Action> actionQueue;
     int type;
     int tailHeadPin1;
     int tailHeadPin2;
@@ -33,6 +34,9 @@ private:
     unsigned long previousMillisSM;
 
     bool isFirstPerformCall;
+    bool isFirstTimeEmpty;
+
+    bool isFishPlayingBool;
 
 public:
     Fish(int fishType);
@@ -49,6 +53,8 @@ public:
     void updateAction();
     void perform(int songNumber);
     void turnTail();
+    bool isFishPlaying();
+    void setFishPlaying(bool isFishPlaying);
 
 };
 
