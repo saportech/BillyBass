@@ -34,12 +34,6 @@ Fish::Fish(int fishType) : type(fishType) {
     ledcAttachPin(PWMPin, 0);
     ledcWrite(0, 100);
 
-    intervalFlap = 300;
-    intervalSing = 300;
-    previousMillisFlap = 0;
-    previousMillisSing = 0;
-    isFlapping = false;
-    isSinging = false;
     state = 0;
     previousMillisSM = 0;
     isFirstPerformCall = true;
@@ -2811,103 +2805,6 @@ void Fish::updateAction() {
       }
     }
   } 
-}
-
-void Fish::songStateMachine(int songNumber) {
-  
-  #define TIME 3000
-
-  enum BILLY_BASS_STATE_TYPE { START,
-                    SECTION1,  
-                    SECTION2,
-                    SECTION3,
-                    FINISH
-                  };
-  switch ( state )
-    {
-      case START:
-        Serial.println("START" + String(txPin));
-        dfPlayerSetup(txPin);
-        playSound(songNumber);
-        previousMillisSM = millis();
-        turnHead();
-        state++;
-        break;
-      case SECTION1:
-        if (millis() - previousMillisSM > 8540) {
-          previousMillisSM = millis();
-          state++;
-          Serial.println("SECTION2" + String(tailHeadPin1));
-          stopAll();
-          break;
-        }
-        sing();
-        break;
-      case SECTION2:
-        if (millis() - previousMillisSM > 8130) {
-          previousMillisSM = millis();
-          state++;
-          Serial.println("SECTION3" + String(tailHeadPin1));
-          turnHead();
-          break;
-        }
-        sing();
-        break;
-      case SECTION3:
-        if (millis() - previousMillisSM > 8400) {
-          previousMillisSM = millis();
-          state++;
-          Serial.println("FINISH" + String(tailHeadPin1));
-          stopAll();
-          break;
-        }
-        sing();
-        break;
-      case FINISH:
-        if (millis() - previousMillisSM > TIME) {
-          stopAll();
-          state = 0;
-          previousMillisSM = millis();
-        }
-        break;
-    }
-}
-
-void Fish::flapTail() {
-
-    if (millis() - previousMillisFlap >= intervalFlap) {
-        previousMillisFlap = millis();
-        isFlapping = !isFlapping;
-
-        if (isFlapping) {
-            digitalWrite(tailHeadPin1, HIGH);
-            digitalWrite(tailHeadPin2, LOW);
-            intervalFlap = 300;
-        } else {
-            digitalWrite(tailHeadPin1, LOW);
-            digitalWrite(tailHeadPin2, LOW);
-            intervalFlap = 150;
-        }
-    }
-}
-
-void Fish::sing() {
-    const int MOUTH_TIME = 1000;
-    
-    if (millis() - previousMillisSing >= intervalSing) {
-        previousMillisSing = millis();
-        isSinging = !isSinging;
-
-        if (isSinging) {
-            digitalWrite(mouthPin1, HIGH);
-            digitalWrite(mouthPin2, LOW);
-            intervalSing = MOUTH_TIME;
-        } else {
-            digitalWrite(mouthPin1, LOW);
-            digitalWrite(mouthPin2, LOW);
-            intervalSing = MOUTH_TIME;
-        }
-    }
 }
 
 void Fish::turnHead() {

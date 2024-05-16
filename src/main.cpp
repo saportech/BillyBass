@@ -9,7 +9,6 @@ void runFishesSong1(int songNumber, unsigned long startTimeFish2, unsigned long 
 void runFishesSong2(int songNumber, unsigned long startTimeFish2, unsigned long startTimeFish3);
 void runFishesSong3(int songNumber, unsigned long startTimeFish2, unsigned long startTimeFish3);
 void resetingAndPlayingNextSong();
-void buttonPressed();
 
 bool fishesPlaying = false;
 
